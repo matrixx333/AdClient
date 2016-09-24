@@ -77,11 +77,11 @@ namespace AdClient.Web.Controllers
             return Ok(userPrincipal.ToUser());
         }
 
-        [Route("{samAccountName}/groups/{groupName}/is-member")]
-        public IHttpActionResult GetIsGroupMember(string samAccountName, string groupName)
+        [Route("{samAccountName}/is-member")]
+        public IHttpActionResult PostIsGroupMember(string samAccountName, IsGroupMemberRequest request)
         {
             var userPrincipal = Get(samAccountName);
-            return Ok(userPrincipal.IsGroupMember(groupName));
+            return Ok(userPrincipal.IsGroupMember(request.GroupName));
         }
 
         /// <summary>

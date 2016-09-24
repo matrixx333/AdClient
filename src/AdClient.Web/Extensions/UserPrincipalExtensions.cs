@@ -69,7 +69,7 @@ namespace AdClient.Web.Extensions
 
         public static bool IsGroupMember(this UserPrincipalEx userPrincipal, string groupName)
         {
-            return userPrincipal.GetGroups().Cast<GroupPrincipalEx>().Any(g => g.Name == groupName);
+            return userPrincipal.GetGroups().Any(g => g.Name.ToLower() == groupName.ToLower());
         }
 
         public static bool MoveUser(this UserPrincipalEx userPrincipal, string newContainer)

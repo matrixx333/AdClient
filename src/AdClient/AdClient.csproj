@@ -53,6 +53,7 @@
     <Compile Include="Requests\ChangeGroupRequest.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Credentials.cs" />
+    <Compile Include="Requests\IsGroupMemberRequest.cs" />
     <Compile Include="Requests\MessageRequest.cs" />
     <Compile Include="Requests\MoveUserRequest.cs" />
     <Compile Include="Requests\UpdateUserRequest.cs" />

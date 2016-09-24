@@ -135,7 +135,9 @@ namespace AdClient
             if (samAccountName == null) return wasSuccessful;
             if (groupName == null) return wasSuccessful;
 
-            var response = _usersClient.GetAsync($"{_usersUri}/{samAccountName}/groups/{groupName}/is-member").Result;
+            var request = new IsGroupMemberRequest() { GroupName = groupName };
+
+            var response = _usersClient.PostAsJsonAsync($"{_usersUri}/{samAccountName}/is-member", request).Result;
             response.EnsureSuccessStatusCode();
 
             return response.Content.ReadAsAsync<bool>().Result;
