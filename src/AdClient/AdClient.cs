@@ -153,17 +153,17 @@ namespace AdClient
             return response.Content.ReadAsAsync<User>().Result;
         }
 
-        public bool MoveUser(string userDistinquishedName, string newContainer)
+        public bool MoveUser(string userDistinguishedName, string newContainer)
         {
             var wasSuccessful = false;
 
-            if (userDistinquishedName == null) return wasSuccessful;
+            if (userDistinguishedName == null) return wasSuccessful;
             if (newContainer == null) return wasSuccessful;
 
             var request = new MoveUserRequest()
             {
                 NewContainer = newContainer,
-                UserDistinquishedName = userDistinquishedName
+                UserDistinguishedName = userDistinguishedName
             };
 
             var response = _usersClient.PostAsJsonAsync($"{_usersUri}/move", request).Result;

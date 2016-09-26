@@ -44,11 +44,7 @@ namespace AdClient.Web.Extensions
 
             return user;
         }
-
-        public static List<User> ToUserList(this IEnumerable<Principal> principals)
-        {
-            return principals.Cast<UserPrincipalEx>().Select(u => u.ToUser()).ToList();
-        }
+             
 
         /// <summary>
         /// Sets the primary group for the specified User principal to "Domain Guests".
@@ -94,17 +90,17 @@ namespace AdClient.Web.Extensions
         {
             var wasSuccessful = false;
             if (request == null) return wasSuccessful;
+            if (userPrincipal == null) return wasSuccessful;
 
-            if (userPrincipal != null)
-            {
-                userPrincipal.AltRecipient = null;
-                userPrincipal.Description = request.Description;
-                userPrincipal.Enabled = request.Enabled;
-                userPrincipal.IpPhone = request.IpPhone;
-                userPrincipal.MsExchHideFromAddressLists = request.MsExchHideFromAddressLists;
-                userPrincipal.Save();
-                wasSuccessful = true;
-            }
+            //userPrincipal.AltRecipient = null;            
+            userPrincipal.Description = request.Description;
+            userPrincipal.Enabled = request.Enabled;
+            userPrincipal.IpPhone = request.IpPhone;
+            //userPrincipal.MsExchHideFromAddressLists = request.MsExchHideFromAddressLists;
+            userPrincipal.Save();
+            
+            wasSuccessful = true;
+
             return wasSuccessful;
         }
     }

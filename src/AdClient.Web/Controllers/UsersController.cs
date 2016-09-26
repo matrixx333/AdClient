@@ -58,13 +58,6 @@ namespace AdClient.Web.Controllers
             return Ok(ps.FindAll().ToUserList());
         }
 
-        [Route("{samAccountName}/groups")]
-        public IHttpActionResult GetUserGroups(string samAccountName)
-        {
-            var userPrincipal = Get(samAccountName);
-            return Ok(userPrincipal.GetGroups().ToGroupList());
-        }
-
         /// <summary>
         /// Gets the specified user from Active Directory.
         /// </summary>
@@ -80,7 +73,8 @@ namespace AdClient.Web.Controllers
         [Route("{samAccountName}/is-member")]
         public IHttpActionResult PostIsGroupMember(string samAccountName, IsGroupMemberRequest request)
         {
-            var userPrincipal = Get(samAccountName);
+            var userPrincipal = Get(samAccountName);  
+                      
             return Ok(userPrincipal.IsGroupMember(request.GroupName));
         }
 
@@ -94,10 +88,13 @@ namespace AdClient.Web.Controllers
         [Route("move")]
         public IHttpActionResult PostMoveUser(MoveUserRequest request)
         {
-            var user = new DirectoryEntry(request.UserDistinquishedName);
-            return Ok(user.MoveTo(request.NewContainer)); 
-        }
+            bool result;
 
+            var user = new DirectoryEntry($"LDAP://{_domain}/{request.UserDistinguishedName}");
+            result = user.MoveTo($"LDAP://{_domain}/{request.NewContainer}");
+
+            return Ok(result);
+        }
 
         /// <summary>
         /// Updates the description field for a User principal in Active Directory.
@@ -110,75 +107,11 @@ namespace AdClient.Web.Controllers
             var userPrincipal = Get(request.SamAccountName);
             return Ok(userPrincipal.Update(request));
         }
-
-        ///// <summary>
-        ///// Removes all group memberships for a specified User principal and sets their primary group to "Domain Guests".
-        ///// </summary>
-        ///// <param name="samAccountName">The user in Active Directory that you want to remove all group memberships for.</param>
-        ///// <returns>Returns 'true' if all groups are removed from the user successfully, otherwise, returns 'false'.</returns>
-        [Route("{samAccountName}/remove-all-groups")]
-        public IHttpActionResult PutRemoveAllUserGroupMemberships(string samAccountName)
-        {
-            // TODO: Move to GroupsController
-
-            var wasSuccessful = false;
-            var userPrincipal = Get(samAccountName);
-            var userGroups = userPrincipal.GetGroups().Cast<GroupPrincipalEx>();
-            var domainGuestsGroup = GetGroup("Domain Guests");
-            var domainUsersGroup = GetGroup("Domain Users");
-
-            try
-            {
-                if (userPrincipal.IsGroupMember("Domain Guests"))
-                {
-                    userPrincipal.ToDomainGuests();
-                    domainGuestsGroup.RemoveUser(userPrincipal);
-
-                    foreach (var group in userGroups)
-                    {
-                        group.RemoveUser(userPrincipal);
-                    }
-
-                    // not sure why the Domain Users group isn't being removed from the loop above
-                    domainUsersGroup.RemoveUser(userPrincipal);
-                }
-                else
-                {
-                    domainGuestsGroup.AddUser(userPrincipal);
-                    userPrincipal.ToDomainGuests();
-
-                    foreach (var group in userGroups)
-                    {
-                        group.RemoveUser(userPrincipal);
-                    }
-
-                    // not sure why the Domain Users group isn't being removed from the loop above
-                    domainUsersGroup.RemoveUser(userPrincipal);
-                }
-
-                wasSuccessful = true;
-
-            }
-            catch
-            {
-
-            }
-
-            return Ok(wasSuccessful);
-        }
-
-        private GroupPrincipalEx GetGroup(string groupName)
-        {
-            var groupPrincipal = GroupPrincipalEx.FindByIdentity(_ctx, groupName);
-            return groupPrincipal;
-        }
-
+        
         private UserPrincipalEx Get(string samAccountName)
         {
             var userPrincipal = UserPrincipalEx.FindByIdentity(_ctx, IdentityType.SamAccountName, samAccountName);
             return userPrincipal;
         }
-
-
     }
 }

@@ -67,13 +67,13 @@ namespace AdClient.Web.Controllers
 
         [Route("~/api/v1/users/{samAccountName}/groups")]
         public IHttpActionResult GetGroups(string samAccountName)
-        {            
+        {
             var up = GetUser(samAccountName);
             var groups = new List<Group>();
 
             if (up != null)
             {
-                groups = up.GetGroups().ToGroupList();                
+                groups = up.GetGroups().ToGroupList();
             }
 
             return Ok(groups);
@@ -107,7 +107,33 @@ namespace AdClient.Web.Controllers
             groupPrincipal.RemoveUser(userPrincipal);
 
             return Ok();
-        }     
+        }
+
+        ///// <summary>
+        ///// Removes all group memberships for a specified User principal and sets their primary group to "Domain Guests".
+        ///// </summary>
+        ///// <param name="samAccountName">The user in Active Directory that you want to remove all group memberships for.</param>
+        ///// <returns>Returns 'true' if all groups are removed from the user successfully, otherwise, returns 'false'.</returns>
+        [Route("~/api/v1/users/{samAccountName}/remove-all-groups")]
+        public IHttpActionResult PutRemoveAllUserGroupMemberships(string samAccountName)
+        {
+            var wasSuccessful = false;
+            var userPrincipal = GetUser(samAccountName);
+            var userGroups = userPrincipal.GetGroups().ToGroupPrincipalList();
+            var domainGuestsGroup = Get("Domain Guests");
+
+            domainGuestsGroup.AddUser(userPrincipal);
+            userPrincipal.ToDomainGuests();
+
+            foreach (var group in userGroups)
+            {
+                group.RemoveUser(userPrincipal);
+            }
+
+            wasSuccessful = true;
+
+            return Ok(wasSuccessful);
+        }
 
         private GroupPrincipalEx Get(string groupName)
         {

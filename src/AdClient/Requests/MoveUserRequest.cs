@@ -8,7 +8,7 @@ namespace AdClient.Requests
 {
     public class MoveUserRequest
     {
-        public string UserDistinquishedName { get; set; }
+        public string UserDistinguishedName { get; set; }
         public string NewContainer { get; set; }
     }
 }
