@@ -66,14 +66,14 @@ namespace AdClient.Web.Controllers
         }
 
         [Route("~/api/v1/users/{samAccountName}/groups")]
-        public IHttpActionResult GetGroups(string samAccountName)
+        public IHttpActionResult GetUserGroups(string samAccountName)
         {
             var up = GetUser(samAccountName);
             var groups = new List<Group>();
 
             if (up != null)
             {
-                groups = up.GetGroups().ToGroupList();
+                groups = up.GetAuthorizationGroups().ToGroupList();                
             }
 
             return Ok(groups);
