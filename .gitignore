@@ -243,4 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-/src/AdClient.Web/Web.config
+/src/AdClient.Web/activeDirectory.dev.config
