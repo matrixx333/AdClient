@@ -106,9 +106,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <Content Include="appSettings.config" />
+    <Content Include="appSettings.dev.config" />
     <None Include="Properties\PublishProfiles\lab.local.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Lab.config">
       <DependentUpon>Web.config</DependentUpon>
