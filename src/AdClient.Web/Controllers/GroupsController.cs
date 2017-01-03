@@ -73,7 +73,7 @@ namespace AdClient.Web.Controllers
 
             if (up != null)
             {
-                groups = up.GetAuthorizationGroups().ToGroupList();                
+                groups = up.GetGroups().ToGroupList();                
             }
 
             return Ok(groups);
@@ -118,17 +118,37 @@ namespace AdClient.Web.Controllers
         public IHttpActionResult PutRemoveAllUserGroupMemberships(string samAccountName)
         {
             var wasSuccessful = false;
-            var userPrincipal = GetUser(samAccountName);
-            var userGroups = userPrincipal.GetGroups().ToGroupPrincipalList();
-            var domainGuestsGroup = Get("Domain Guests");
+            const string domainAdmins = "Domain Admins";
+            const string domainGuests = "Domain Guests";
+            var domainAdminsGroup = Get(domainAdmins);
+            var domainGuestsGroup = Get(domainGuests);
+            var up = GetUser(samAccountName);            
 
-            domainGuestsGroup.AddUser(userPrincipal);
-            userPrincipal.ToDomainGuests();
+            // If the user is already a Domain Guest, return
+            if (up.PrimaryGroupId == (int)PrimaryGroupId.DomainGuests)
+                return Ok(wasSuccessful);
 
+            var userGroups = up.GetGroups()
+                .Where(g => g.Name != domainGuests)
+                .Where(g => g.Name != domainAdmins)
+                .ToGroupPrincipalList();
+                
             foreach (var group in userGroups)
             {
-                group.RemoveUser(userPrincipal);
+                group.RemoveUser(up);
             }
+
+            if (!up.IsGroupMember(domainGuests))
+            {
+                domainGuestsGroup.AddUser(up);
+            }
+
+            up.ToDomainGuests();
+
+            if (up.IsGroupMember(domainAdmins))
+            {
+                domainAdminsGroup.RemoveUser(up);
+            }            
 
             wasSuccessful = true;
 
