@@ -128,6 +128,8 @@ namespace AdClient.Web.Controllers
             if (up.PrimaryGroupId == (int)PrimaryGroupId.DomainGuests)
                 return Ok(wasSuccessful);
 
+            up.ToDomainGuests();
+
             var userGroups = up.GetGroups()
                 .Where(g => g.Name != domainGuests)
                 .Where(g => g.Name != domainAdmins)
@@ -141,9 +143,7 @@ namespace AdClient.Web.Controllers
             if (!up.IsGroupMember(domainGuests))
             {
                 domainGuestsGroup.AddUser(up);
-            }
-
-            up.ToDomainGuests();
+            }            
 
             if (up.IsGroupMember(domainAdmins))
             {
