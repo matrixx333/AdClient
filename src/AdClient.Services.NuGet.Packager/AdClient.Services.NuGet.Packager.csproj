@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}</ProjectGuid>
+    <ProjectGuid>{0451BAEF-DF2E-4B98-8644-94EE9415E389}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdClient.NuGet.Packager</RootNamespace>
-    <AssemblyName>AdClient.NuGet.Packager</AssemblyName>
+    <RootNamespace>AdClient.Services.NuGet.Packager</RootNamespace>
+    <AssemblyName>AdClient.Services.NuGet.Packager</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -47,10 +47,6 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Lab|AnyCPU'">
-    <OutputPath>bin\Lab\</OutputPath>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -59,9 +55,7 @@
     <None Include="NuGetSetup.ps1" />
     <None Include="NuGet.exe" />
     <None Include="NuGet.config" />
-    <None Include="Package.nuspec">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Package.nuspec" />
     <None Include="tools\init.ps1" />
     <None Include="tools\install.ps1" />
     <None Include="tools\uninstall.ps1" />
@@ -72,9 +66,9 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AdClient\AdClient.csproj">
-      <Project>{00788b03-e86d-4e2b-a8fa-ad99e1f9ed79}</Project>
-      <Name>AdClient</Name>
+    <ProjectReference Include="..\AdClient.Services\AdClient.Services.csproj">
+      <Project>{2af582d5-1634-415f-8642-3ad61bc1bc3a}</Project>
+      <Name>AdClient.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

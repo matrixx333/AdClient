@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdClient.NuGet.Packager", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdClient.Services", "AdClient.Services\AdClient.Services.csproj", "{2AF582D5-1634-415F-8642-3AD61BC1BC3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdClient.Services.NuGet.Packager", "AdClient.Services.NuGet.Packager\AdClient.Services.NuGet.Packager.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,7 +41,6 @@ Global
 		{D79162C7-99D3-4779-8E12-D11AD5BB6AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D79162C7-99D3-4779-8E12-D11AD5BB6AB6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Lab|Any CPU.ActiveCfg = Lab|Any CPU
 		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Lab|Any CPU.Build.0 = Lab|Any CPU
 		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -50,6 +51,11 @@ Global
 		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Lab|Any CPU.Build.0 = Release|Any CPU
 		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Lab|Any CPU.ActiveCfg = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Lab|Any CPU.Build.0 = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
