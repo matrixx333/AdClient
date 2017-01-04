@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AdClient.Models;
-using AdClient.Web.Models;
 using System.DirectoryServices.AccountManagement;
 using AdClient.Requests;
-using AdClient.Web.Extensions;
 using System.DirectoryServices;
 
-namespace AdClient.Web.Extensions
+namespace AdClient.Extensions
 {
     public static class UserPrincipalExExtension
     {

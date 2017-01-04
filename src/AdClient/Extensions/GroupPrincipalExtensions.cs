@@ -4,11 +4,9 @@ using System.Linq;
 using System.Web;
 using AdClient.Models;
 using System.DirectoryServices.AccountManagement;
-using AdClient.Web.Models;
 using AdClient.Requests;
-using AdClient.Web.Extensions;
 
-namespace AdClient.Web.Extensions
+namespace AdClient.Extensions
 {
     public static class GroupPrincipalExtension
     {

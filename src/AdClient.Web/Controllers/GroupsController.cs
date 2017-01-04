@@ -1,58 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.DirectoryServices.AccountManagement;
-using AdClient.Models;
-using AdClient.Web.Models;
-using AdClient.Web.Extensions;
 using AdClient.Requests;
 using System.Configuration;
 using System.Web.Http;
+using AdClient.Services;
 
 namespace AdClient.Web.Controllers
 {
     [RoutePrefix("api/v1/groups")]
     public class GroupsController : ApiController
     {
-        private readonly string _domain = ConfigurationManager.AppSettings["RootDomain"];
-        private readonly string _rootOu = ConfigurationManager.AppSettings["RootOu"];
-        private readonly string _serviceUser = ConfigurationManager.AppSettings["ServiceUser"];
-        private readonly string _servicePassword = ConfigurationManager.AppSettings["ServicePassword"];
-        
-        private readonly PrincipalContext _ctx;
+        private readonly IGroupsService _groupSvc;
 
         public GroupsController()
         {
-            try
-            {
-                _ctx = new PrincipalContext(ContextType.Domain, _domain, _rootOu, ContextOptions.Negotiate, _serviceUser, _servicePassword);
-
-                try
-                {
-                    //used to catch AuthenticationExceptions
-                    var connectedServer = _ctx.ConnectedServer;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _groupSvc = new GroupsService();
         }
 
         [Route("")]
         public IHttpActionResult GetAllGroups()
         {
-            var ps = new PrincipalSearcher(new GroupPrincipalEx(_ctx) { ObjectCategory = "Group" });
-            var allGroups = ps.FindAll().ToGroupList();
-            
-            return Ok(allGroups);
+            return Ok(_groupSvc.GetAllGroups());
         }
-
-
+        
         /// <summary>
         /// Gets the specified group from Active Directory.
         /// </summary>
@@ -61,22 +32,13 @@ namespace AdClient.Web.Controllers
         [Route("{groupName}")]
         public IHttpActionResult GetGroup(string groupName)
         {
-            var gp = Get(groupName);            
-            return Ok(gp.ToGroup());
+            return Ok(_groupSvc.GetGroup(groupName));
         }
 
         [Route("~/api/v1/users/{samAccountName}/groups")]
         public IHttpActionResult GetUserGroups(string samAccountName)
         {
-            var up = GetUser(samAccountName);
-            var groups = new List<Group>();
-
-            if (up != null)
-            {
-                groups = up.GetGroups().ToGroupList();                
-            }
-
-            return Ok(groups);
+            return Ok(_groupSvc.GetUserGroups(samAccountName));
         }
 
         /// <summary>
@@ -87,11 +49,7 @@ namespace AdClient.Web.Controllers
         [Route("add-to-group")]
         public IHttpActionResult PostAddUserToGroup(ChangeGroupRequest request)
         {
-            var userPrincipal = GetUser(request.SamAccountName);
-            var groupPrincipal = Get(request.GroupName);
-            groupPrincipal.AddUser(userPrincipal);
-
-            return Ok();
+            return Ok(_groupSvc.AddUserToGroup(request.SamAccountName, request.GroupName));
         }
 
         /// <summary>
@@ -102,11 +60,7 @@ namespace AdClient.Web.Controllers
         [Route("remove-from-group")] 
         public IHttpActionResult PostRemoveUserFromGroup(ChangeGroupRequest request)
         {
-            var userPrincipal = GetUser(request.SamAccountName);
-            var groupPrincipal = Get(request.GroupName);
-            groupPrincipal.RemoveUser(userPrincipal);
-
-            return Ok();
+            return Ok(_groupSvc.RemoveUserFromGroup(request.SamAccountName, request.GroupName));
         }
 
         ///// <summary>
@@ -117,54 +71,7 @@ namespace AdClient.Web.Controllers
         [Route("~/api/v1/users/{samAccountName}/remove-all-groups")]
         public IHttpActionResult PutRemoveAllUserGroupMemberships(string samAccountName)
         {
-            var wasSuccessful = false;
-            const string domainAdmins = "Domain Admins";
-            const string domainGuests = "Domain Guests";
-            var domainAdminsGroup = Get(domainAdmins);
-            var domainGuestsGroup = Get(domainGuests);
-            var up = GetUser(samAccountName);            
-
-            // If the user is already a Domain Guest, return
-            if (up.PrimaryGroupId == (int)PrimaryGroupId.DomainGuests)
-                return Ok(wasSuccessful);
-
-            up.ToDomainGuests();
-
-            var userGroups = up.GetGroups()
-                .Where(g => g.Name != domainGuests)
-                .Where(g => g.Name != domainAdmins)
-                .ToGroupPrincipalList();
-                
-            foreach (var group in userGroups)
-            {
-                group.RemoveUser(up);
-            }
-
-            if (!up.IsGroupMember(domainGuests))
-            {
-                domainGuestsGroup.AddUser(up);
-            }            
-
-            if (up.IsGroupMember(domainAdmins))
-            {
-                domainAdminsGroup.RemoveUser(up);
-            }            
-
-            wasSuccessful = true;
-
-            return Ok(wasSuccessful);
-        }
-
-        private GroupPrincipalEx Get(string groupName)
-        {
-            var groupPrincipal = GroupPrincipalEx.FindByIdentity(_ctx, groupName);
-            return groupPrincipal;
-        }
-
-        private UserPrincipalEx GetUser(string samAccountName)
-        {
-            var userPrincipal = UserPrincipalEx.FindByIdentity(_ctx, IdentityType.SamAccountName, samAccountName);
-            return userPrincipal;
-        }                
+            return Ok(_groupSvc.RemoveAllUserGroupMemberships(samAccountName));
+        }               
     }
 }

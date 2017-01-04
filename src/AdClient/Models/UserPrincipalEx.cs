@@ -1,6 +1,6 @@
 ﻿using System.DirectoryServices.AccountManagement;
 
-namespace AdClient.Web.Models
+namespace AdClient.Models
 {
     [DirectoryObjectClass("user")]
     [DirectoryRdnPrefix("CN")]

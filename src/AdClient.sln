@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdClient", "AdClient\AdClient.csproj", "{00788B03-E86D-4E2B-A8FA-AD99E1F9ED79}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdClient.Web.Tests", "AdClient.Web.Tests\AdClient.Web.Tests.csproj", "{D79162C7-99D3-4779-8E12-D11AD5BB6AB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdClient.NuGet.Packager", "AdClient.NuGet.Packager\AdClient.NuGet.Packager.csproj", "{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdClient.Services", "AdClient.Services\AdClient.Services.csproj", "{2AF582D5-1634-415F-8642-3AD61BC1BC3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,12 @@ Global
 		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Lab|Any CPU.Build.0 = Lab|Any CPU
 		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AFD7927-9B96-4FC4-B676-AA41DD7C949F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Lab|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Lab|Any CPU.Build.0 = Release|Any CPU
+		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AF582D5-1634-415F-8642-3AD61BC1BC3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

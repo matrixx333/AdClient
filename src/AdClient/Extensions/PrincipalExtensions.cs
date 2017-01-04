@@ -1,12 +1,11 @@
 ﻿using AdClient.Models;
-using AdClient.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
 using System.Web;
 
-namespace AdClient.Web.Extensions
+namespace AdClient.Extensions
 {
     public static class PrincipalExtensions
     {

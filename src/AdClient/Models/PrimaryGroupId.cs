@@ -1,6 +1,6 @@
-﻿namespace AdClient.Web.Models
+﻿namespace AdClient.Models
 {
-    internal enum PrimaryGroupId
+    public enum PrimaryGroupId
     {
         DomainAdmins = 512,
         DomainUsers = 513,

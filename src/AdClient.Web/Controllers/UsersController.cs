@@ -1,61 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.DirectoryServices;
 using System.Linq;
-using System.DirectoryServices.AccountManagement;
-using AdClient.Web.Models;
-using AdClient.Web.Extensions;
 using AdClient.Models;
 using AdClient.Requests;
 using System.Configuration;
 using System.Web.Http;
+using AdClient.Extensions;
+using AdClient.Services;
 
 namespace AdClient.Web.Controllers
 {
     [RoutePrefix("api/v1/users")]
     public class UsersController : ApiController
     {
-        private readonly string _domain = ConfigurationManager.AppSettings["RootDomain"];
-        private readonly string _rootOu = ConfigurationManager.AppSettings["RootOu"];
-        private readonly string _serviceUser = ConfigurationManager.AppSettings["ServiceUser"];
-        private readonly string _servicePassword = ConfigurationManager.AppSettings["ServicePassword"];
-
-        private readonly PrincipalContext _ctx;
+        private readonly IUsersService _userSvc;
 
         public UsersController()
         {
-            try
-            {
-                _ctx = new PrincipalContext(ContextType.Domain, _domain, _rootOu, ContextOptions.Negotiate, _serviceUser, _servicePassword);
-
-                try
-                {
-                    //used to catch AuthenticationExceptions
-                    var connectedServer = _ctx.ConnectedServer;
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            _userSvc = new UsersService();
         }
 
         [Route("validate")]
         public IHttpActionResult PostValidateCredentials(Credentials creds)
         {
-            var isValid = _ctx.ValidateCredentials(creds.Username, creds.Password, ContextOptions.Negotiate);
-            return Ok(isValid);
+            return Ok(_userSvc.ValidateCredentials(creds.Username, creds.Password));
         }
 
         [Route("")]
         public IHttpActionResult GetAllUsers()
         {
-            var ps = new PrincipalSearcher(new UserPrincipalEx(_ctx) { ObjectCategory = "Person" });
-            return Ok(ps.FindAll().ToUserList());
+            return Ok(_userSvc.GetAllUsers());
         }
 
         /// <summary>
@@ -66,16 +40,13 @@ namespace AdClient.Web.Controllers
         [Route("{samAccountName}")]
         public IHttpActionResult GetUser(string samAccountName)
         {
-            var userPrincipal = Get(samAccountName);
-            return Ok(userPrincipal.ToUser());
+            return Ok(_userSvc.GetUser(samAccountName));
         }
 
         [Route("{samAccountName}/is-member")]
         public IHttpActionResult PostIsGroupMember(string samAccountName, IsGroupMemberRequest request)
         {
-            var userPrincipal = Get(samAccountName);  
-                      
-            return Ok(userPrincipal.IsGroupMember(request.GroupName));
+            return Ok(_userSvc.IsGroupMember(samAccountName, request.GroupName));
         }
 
         /// <summary>
@@ -88,12 +59,7 @@ namespace AdClient.Web.Controllers
         [Route("move")]
         public IHttpActionResult PostMoveUser(MoveUserRequest request)
         {
-            bool result;
-
-            var user = new DirectoryEntry($"LDAP://{_domain}/{request.UserDistinguishedName}");
-            result = user.MoveTo($"LDAP://{_domain}/{request.NewContainer}");
-
-            return Ok(result);
+            return Ok(_userSvc.MoveUser(request.UserDistinguishedName, request.NewContainer));
         }
 
         /// <summary>
@@ -104,14 +70,7 @@ namespace AdClient.Web.Controllers
         [Route("{samAccountName}")]
         public IHttpActionResult PutUpdate(UpdateUserRequest request)
         {
-            var userPrincipal = Get(request.SamAccountName);
-            return Ok(userPrincipal.Update(request));
-        }
-        
-        private UserPrincipalEx Get(string samAccountName)
-        {
-            var userPrincipal = UserPrincipalEx.FindByIdentity(_ctx, IdentityType.SamAccountName, samAccountName);
-            return userPrincipal;
-        }
+            return Ok(_userSvc.UpdateUser(request.Description, request.Enabled, request.AltRecipient, request.IpPhone, request.MsExchHideFromAddressLists, request.SamAccountName));
+        }        
     }
 }
