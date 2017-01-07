@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Adclient.Models.NuGet.Packager</id>
+    <id>Adclient.Models</id>
     <version>1.0.0</version>
-    <title>Adclient.Models.NuGet.Packager</title>
+    <title>Adclient.Models</title>
     <authors>matrixx333</authors>
     <owners></owners>
     <description>
