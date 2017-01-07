@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
+using System.Threading;
 
 namespace AdClient.Services
 {
@@ -20,18 +21,13 @@ namespace AdClient.Services
 
     public class GroupsService : IGroupsService
     {
-        private readonly string _domain = ConfigurationManager.AppSettings["RootDomain"];
-        private readonly string _rootOu = ConfigurationManager.AppSettings["RootOu"];
-        private readonly string _serviceUser = ConfigurationManager.AppSettings["ServiceUser"];
-        private readonly string _servicePassword = ConfigurationManager.AppSettings["ServicePassword"];
-
         private readonly PrincipalContext _ctx;
 
-        public GroupsService()
+        public GroupsService(string rootDomain, string rootOu, string serviceUser, string servicePassword)
         {
             try
             {
-                _ctx = new PrincipalContext(ContextType.Domain, _domain, _rootOu, ContextOptions.Negotiate, _serviceUser, _servicePassword);
+                _ctx = new PrincipalContext(ContextType.Domain, rootDomain, rootOu, ContextOptions.Negotiate, serviceUser, servicePassword);
 
                 try
                 {
@@ -55,9 +51,12 @@ namespace AdClient.Services
 
             var userPrincipal = GetUser(samAccountName);
             var groupPrincipal = Get(groupName);
-            groupPrincipal.AddUser(userPrincipal);
 
-            wasSuccessful = true;
+            if(!userPrincipal.IsGroupMember(groupName))
+            {
+                groupPrincipal.AddUser(userPrincipal);
+                wasSuccessful = true;
+            }
 
             return wasSuccessful;
         }
@@ -94,21 +93,22 @@ namespace AdClient.Services
             var wasSuccessful = false;
             const string domainAdmins = "Domain Admins";
             const string domainGuests = "Domain Guests";
+            const string domainUsers = "Domain Users";
             var domainAdminsGroup = Get(domainAdmins);
             var domainGuestsGroup = Get(domainGuests);
+            var domainUsersGroup = Get(domainUsers);
             var up = GetUser(samAccountName);
 
             // If the user is already a Domain Guest, return
             if (up.PrimaryGroupId == (int)PrimaryGroupId.DomainGuests)
-                return wasSuccessful;
-
-            up.ToDomainGuests();
-
+                return wasSuccessful;       
+         
             var userGroups = up.GetGroups()
                 .Where(g => g.Name != domainGuests)
                 .Where(g => g.Name != domainAdmins)
+                .Where(g => g.Name != domainUsers)
                 .ToGroupPrincipalList();
-
+             
             foreach (var group in userGroups)
             {
                 group.RemoveUser(up);
@@ -119,11 +119,18 @@ namespace AdClient.Services
                 domainGuestsGroup.AddUser(up);
             }
 
+            up.ToDomainGuests();
+
+            if (up.IsGroupMember(domainUsers))
+            {
+                domainUsersGroup.RemoveUser(up);
+            }
+
             if (up.IsGroupMember(domainAdmins))
             {
                 domainAdminsGroup.RemoveUser(up);
             }
-
+            
             wasSuccessful = true;
 
             return wasSuccessful;
@@ -134,9 +141,12 @@ namespace AdClient.Services
             bool wasSuccessful = false;
             var userPrincipal = GetUser(samAccountName);
             var groupPrincipal = Get(groupName);
-            groupPrincipal.RemoveUser(userPrincipal);
 
-            wasSuccessful = true;
+            if(userPrincipal.IsGroupMember(groupName))
+            {
+                groupPrincipal.RemoveUser(userPrincipal);
+                wasSuccessful = true;
+            }
 
             return wasSuccessful;
         }

@@ -17,22 +17,20 @@ namespace AdClient.Services
         bool IsGroupMember(string samAccountName, string groupName);
         bool MoveUser(string userDistinguishedName, string newContainer);
         bool UpdateUser(string description, bool enabled, string altReceipient, string ipPhone, bool msExchHideFromAddressLists, string samAccountName);
+        bool ToDomainGuest(string samAccountName);
     }
 
     public class UsersService : IUsersService
     {
-        private readonly string _domain = ConfigurationManager.AppSettings["RootDomain"];
-        private readonly string _rootOu = ConfigurationManager.AppSettings["RootOu"];
-        private readonly string _serviceUser = ConfigurationManager.AppSettings["ServiceUser"];
-        private readonly string _servicePassword = ConfigurationManager.AppSettings["ServicePassword"];
-
         private readonly PrincipalContext _ctx;
+        private string _rootDomain;
 
-        public UsersService()
+        public UsersService(string rootDomain, string rootOu, string serviceUser, string servicePassword)
         {
             try
             {
-                _ctx = new PrincipalContext(ContextType.Domain, _domain, _rootOu, ContextOptions.Negotiate, _serviceUser, _servicePassword);
+                _rootDomain = rootDomain;
+                _ctx = new PrincipalContext(ContextType.Domain, rootDomain, rootOu, ContextOptions.Negotiate, serviceUser, servicePassword);
 
                 try
                 {
@@ -72,10 +70,16 @@ namespace AdClient.Services
         {
             bool result;
 
-            var user = new DirectoryEntry($"LDAP://{_domain}/{userDistinguishedName}");
-            result = user.MoveTo($"LDAP://{_domain}/{newContainer}");
+            var user = new DirectoryEntry($"LDAP://{_rootDomain}/{userDistinguishedName}");
+            result = user.MoveTo($"LDAP://{_rootDomain}/{newContainer}");
 
             return result;
+        }
+
+        public bool ToDomainGuest(string samAccountName)
+        {
+            var userPrincipal = Get(samAccountName);
+            return userPrincipal.ToDomainGuests();
         }
 
         public bool UpdateUser(string description, bool enabled, string altReceipient, string ipPhone, bool msExchHideFromAddressLists, string samAccountName)

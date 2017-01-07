@@ -12,11 +12,15 @@ namespace AdClient.Web.Controllers
     [RoutePrefix("api/v1/users")]
     public class UsersController : ApiController
     {
+        private readonly string _rootDomain = ConfigurationManager.AppSettings["RootDomain"];
+        private readonly string _rootOu = ConfigurationManager.AppSettings["RootOu"];
+        private readonly string _serviceUser = ConfigurationManager.AppSettings["ServiceUser"];
+        private readonly string _servicePassword = ConfigurationManager.AppSettings["ServicePassword"];
         private readonly IUsersService _userSvc;
 
         public UsersController()
         {
-            _userSvc = new UsersService();
+            _userSvc = new UsersService(_rootDomain, _rootOu, _serviceUser, _servicePassword);
         }
 
         [Route("validate")]

@@ -1,17 +1,22 @@
 ﻿using System.Web.Http;
 using AdClient.Services;
 using AdClient.Models.Requests;
+using System.Configuration;
 
 namespace AdClient.Web.Controllers
 {
     [RoutePrefix("api/v1/groups")]
     public class GroupsController : ApiController
     {
+        private readonly string _rootDomain = ConfigurationManager.AppSettings["RootDomain"];
+        private readonly string _rootOu = ConfigurationManager.AppSettings["RootOu"];
+        private readonly string _serviceUser = ConfigurationManager.AppSettings["ServiceUser"];
+        private readonly string _servicePassword = ConfigurationManager.AppSettings["ServicePassword"];
         private readonly IGroupsService _groupSvc;
 
         public GroupsController()
         {
-            _groupSvc = new GroupsService();
+            _groupSvc = new GroupsService(_rootDomain, _rootOu, _serviceUser, _servicePassword);
         }
 
         [Route("")]
