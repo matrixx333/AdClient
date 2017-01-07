@@ -5,7 +5,7 @@ using System.DirectoryServices;
 using System.Linq;
 using System.Web;
 
-namespace AdClient.Extensions
+namespace AdClient.Models.Extensions
 {
     public static class DirectoryEntryExtensions
     {

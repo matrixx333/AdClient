@@ -1,4 +1,4 @@
-﻿namespace AdClient.Requests
+﻿namespace AdClient.Models.Requests
 {
     public class UpdateUserRequest
     {

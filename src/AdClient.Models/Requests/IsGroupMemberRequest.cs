@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdClient.Requests
+namespace AdClient.Models.Requests
 {
-    public class ChangeGroupRequest
+    public class IsGroupMemberRequest
     {
-        public string SamAccountName { get; set; }
         public string GroupName { get; set; }
     }
 }

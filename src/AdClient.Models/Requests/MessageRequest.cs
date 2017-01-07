@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using AdClient.Models;
 
-namespace AdClient.Requests
+namespace AdClient.Models.Requests
 {
     public class MessageRequest
     {

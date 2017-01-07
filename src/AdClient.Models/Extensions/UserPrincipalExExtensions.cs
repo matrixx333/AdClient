@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AdClient.Models;
-using System.DirectoryServices.AccountManagement;
-using AdClient.Requests;
+﻿using System.Linq;
 using System.DirectoryServices;
+using AdClient.Models.Requests;
 
-namespace AdClient.Extensions
+namespace AdClient.Models.Extensions
 {
     public static class UserPrincipalExExtension
     {

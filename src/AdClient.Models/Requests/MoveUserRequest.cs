@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdClient.Requests
+namespace AdClient.Models.Requests
 {
     public class MoveUserRequest
     {
