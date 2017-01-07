@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>AdClient.Models</id>
-    <version>1.0.0</version>
+    <version>1.0.0.1</version>
     <title>Adclient.Models</title>
     <authors>matrixx333</authors>
     <owners></owners>
@@ -22,7 +22,8 @@
     <copyright>Copyright  2017</copyright>
     <dependencies>
         <!--<group targetFramework="net40">
-          <dependency id="log4net" version="1.2.10" />
+          <dependency id="System.DirectoryServices.dll" version="4.0.0.0" />
+          <dependency id="System.DirectoryServices.AccountManagement.dll" version="4.0.0.0" />
         </group>-->
     </dependencies>
     <references></references>

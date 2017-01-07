@@ -9,7 +9,7 @@ namespace AdClient.Models
         public UserPrincipalEx(PrincipalContext context) : base(context) { }
         public UserPrincipalEx(PrincipalContext context, string samAccountName, string password, bool enabled)
             : base(context, samAccountName, password, enabled) { }
-
+        
         [DirectoryProperty("altRecipient")]
         public string AltRecipient
         {
