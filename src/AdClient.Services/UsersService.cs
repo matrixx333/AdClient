@@ -16,8 +16,7 @@ namespace AdClient.Services
         User GetUser(string samAccountName);
         bool IsGroupMember(string samAccountName, string groupName);
         bool MoveUser(string userDistinguishedName, string newContainer);
-        bool UpdateUser(string description, bool enabled, string altReceipient, string ipPhone, bool msExchHideFromAddressLists, string samAccountName);
-        bool ToDomainGuest(string samAccountName);
+        bool UpdateUser(string description, bool enabled, string altReceipient, string ipPhone, bool msExchHideFromAddressLists, string samAccountName);        
     }
 
     public class UsersService : IUsersService
@@ -75,13 +74,7 @@ namespace AdClient.Services
 
             return result;
         }
-
-        public bool ToDomainGuest(string samAccountName)
-        {
-            var userPrincipal = Get(samAccountName);
-            return userPrincipal.ToDomainGuests();
-        }
-
+        
         public bool UpdateUser(string description, bool enabled, string altReceipient, string ipPhone, bool msExchHideFromAddressLists, string samAccountName)
         {
             var userPrincipal = Get(samAccountName);
