@@ -115,6 +115,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdClient.Models\AdClient.Models.csproj">
+      <Project>{66128639-48CE-4330-9F52-8F456C5B63BC}</Project>
+      <Name>AdClient.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AdClient.Services\AdClient.Services.csproj">
       <Project>{2af582d5-1634-415f-8642-3ad61bc1bc3a}</Project>
       <Name>AdClient.Services</Name>

@@ -66,6 +66,10 @@
     <Folder Include="src\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdClient.Models\AdClient.Models.csproj">
+      <Project>{66128639-48ce-4330-9f52-8f456c5b63bc}</Project>
+      <Name>AdClient.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AdClient.Services\AdClient.Services.csproj">
       <Project>{2af582d5-1634-415f-8642-3ad61bc1bc3a}</Project>
       <Name>AdClient.Services</Name>

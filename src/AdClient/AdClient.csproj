@@ -54,27 +54,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdClient.cs" />
-    <Compile Include="Extensions\DirectoryEntryExtensions.cs" />
-    <Compile Include="Extensions\GroupPrincipalExtensions.cs" />
-    <Compile Include="Extensions\PrincipalExtensions.cs" />
-    <Compile Include="Extensions\UserPrincipalExExtensions.cs" />
-    <Compile Include="Models\GroupPrincipalEx.cs" />
-    <Compile Include="Models\PrimaryGroupId.cs" />
-    <Compile Include="Models\UserPrincipalEx.cs" />
-    <Compile Include="Requests\ChangeGroupRequest.cs" />
-    <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\Credentials.cs" />
-    <Compile Include="Requests\IsGroupMemberRequest.cs" />
-    <Compile Include="Requests\MessageRequest.cs" />
-    <Compile Include="Requests\MoveUserRequest.cs" />
-    <Compile Include="Requests\UpdateUserRequest.cs" />
-    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AdClient.Models\AdClient.Models.csproj">
+      <Project>{66128639-48ce-4330-9f52-8f456c5b63bc}</Project>
+      <Name>AdClient.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -49,9 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AdClient\AdClient.csproj">
-      <Project>{00788b03-e86d-4e2b-a8fa-ad99e1f9ed79}</Project>
-      <Name>AdClient</Name>
+    <ProjectReference Include="..\AdClient.Models\AdClient.Models.csproj">
+      <Project>{66128639-48ce-4330-9f52-8f456c5b63bc}</Project>
+      <Name>AdClient.Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

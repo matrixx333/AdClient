@@ -1,14 +1,11 @@
-﻿using AdClient.Extensions;
-using AdClient.Models;
-using AdClient.Requests;
+﻿using AdClient.Models;
+using AdClient.Models.Extensions;
+using AdClient.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AdClient.Services
 {

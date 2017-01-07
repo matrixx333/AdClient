@@ -35,6 +35,10 @@
     <OutputPath>bin\Lab\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
     <Reference Include="System" />
@@ -55,10 +59,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AdClient.Models\AdClient.Models.csproj">
+      <Project>{66128639-48ce-4330-9f52-8f456c5b63bc}</Project>
+      <Name>AdClient.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AdClient.Services\AdClient.Services.csproj">
+      <Project>{2af582d5-1634-415f-8642-3ad61bc1bc3a}</Project>
+      <Name>AdClient.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AdClient.Web\AdClient.Web.csproj">
       <Project>{5F33B2B8-DE01-44DF-9B0D-51030BA35791}</Project>
       <Name>AdClient.Web</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
