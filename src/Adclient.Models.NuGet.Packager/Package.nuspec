@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>Adclient.Models</id>
+    <id>AdClient.Models</id>
     <version>1.0.0</version>
     <title>Adclient.Models</title>
     <authors>matrixx333</authors>
